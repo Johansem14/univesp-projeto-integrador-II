@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        @media (max-width: 991.98px) {
+    .navbar-nav {
+        justify-content: center;
+    }
+
+    .navbar-nav .nav-item {
+        margin-right: 20px;
+    }
+
+    .navbar-nav .nav-item:last-child {
+        margin-right: 0;
+    }
+
+    .navbar-nav .nav-link i {
+        font-size: 1.5rem;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container-fluid">
+        <a class="navbar-brand">
+            <img src="./img/logo.jpg" alt="Logo" style="max-height: 120px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto flex-row">
+                <li class="nav-item">
+                    <a class="nav-link fs-2 me-2" href="#"><i class="bi bi-house"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-2 me-2" href="#"><i class="bi bi-heart"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-2 me-2" href="#"><i class="bi bi-star"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-2 me-2" href="#"><i class="bi bi-person"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <!-- Main content -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 bg-light p-4">
+                <h5 class="mb-3">Tipo de Oferta</h5>
+                <div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="ofertaGratuita" checked>
+                        <label class="form-check-label" for="ofertaGratuita">
+                            Gratuito
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="ofertaPaga">
+                        <label class="form-check-label" for="ofertaPaga">
+                            Pago
+                        </label>
+                    </div>
+                </div>
+
+                <h5 class="mt-4 mb-3">Categoria</h5>
+                <div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="categoriaCadeiras" checked>
+                        <label class="form-check-label" for="categoriaCadeiras">
+                            Cadeiras
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="categoriaAndadores">
+                        <label class="form-check-label" for="categoriaAndadores">
+                            Andadores
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="categoriaMuletas">
+                        <label class="form-check-label" for="categoriaMuletas">
+                            Muletas
+                        </label>
+                    </div>
+                </div>
+
+                <h5 class="mt-4 mb-3">Localização</h5>
+                <div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="localSP" checked>
+                        <label class="form-check-label" for="localSP">
+                            São Paulo - SP
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="localMairipora">
+                        <label class="form-check-label" for="localMairipora">
+                            Mairiporã - SP
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="localSuzano">
+                        <label class="form-check-label" for="localSuzano">
+                            Suzano - SP
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Section -->
+            <div class="col-lg-10 p-4" style="background-color: #f0f7da;">
+                <!-- Search bar -->
+                <div class="d-flex mb-4">
+                    <input class="form-control me-2" type="search" placeholder="Pesquisar produto" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Pesquisar</button>
+                </div>
+
+                <!-- Product Cards -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="./img/cadeira-de-rodas.jpg" alt="Cadeira de Rodas Simples">
+                            <div class="card-body">
+                                <h5 class="card-title">Cadeira de Rodas Simples</h5>
+                                <p class="card-text">Gratuito</p>
+                                <p class="card-text"><small class="text-muted">São Paulo - SP</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="./img/andador.jpg" class="card-img-top" alt="Andador de Alumínio">
+                            <div class="card-body">
+                                <h5 class="card-title">Andador de Alumínio</h5>
+                                <p class="card-text">R$ 130,00</p>
+                                <p class="card-text"><small class="text-muted">Mairiporã - SP</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="./img/muleta-canadense.jpg" class="card-img-top" alt="Muleta Canadense">
+                            <div class="card-body">
+                                <h5 class="card-title">Muleta Canadense</h5>
+                                <p class="card-text">R$ 80,00</p>
+                                <p class="card-text"><small class="text-muted">Suzano - SP</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-5" style="background-color: #1f192f;">
+        <div class="container text-white">
+            <p class="mb-4 fw-bold fst-italic">*ESTA PLATAFORMA NÃO OFERECE SUPORTE DE TRANSAÇÕES BANCÁRIAS, ENTRE EM CONTATO COM O USUÁRIO DO ANÚNCIO PARA NEGOCIAÇÕES SOBRE O PAGAMENTO E RETIRADA DO PRODUTO.</p>
+            <p class="mb-0">Conecta+ © 2024 Projeto Integrador II - Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
