@@ -82,13 +82,13 @@
                 <h5 class="mb-3">Tipo de Oferta</h5>
                 <div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="ofertaGratuita" checked>
+                        <input class="form-check-input" type="checkbox" value="gratuito" id="ofertaGratuita" name="oferta">
                         <label class="form-check-label" for="ofertaGratuita">
                             Gratuito
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="ofertaPaga">
+                        <input class="form-check-input" type="checkbox" value="pago" id="ofertaPaga" name="oferta">
                         <label class="form-check-label" for="ofertaPaga">
                             Pago
                         </label>
@@ -98,19 +98,19 @@
                 <h5 class="mt-4 mb-3">Categoria</h5>
                 <div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="categoriaCadeiras" checked>
+                        <input class="form-check-input" type="checkbox" value="cadeiras" id="categoriaCadeiras" name="categoria">
                         <label class="form-check-label" for="categoriaCadeiras">
                             Cadeiras
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="categoriaAndadores">
+                        <input class="form-check-input" type="checkbox" value="andadores" id="categoriaAndadores" name="categoria">
                         <label class="form-check-label" for="categoriaAndadores">
                             Andadores
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="categoriaMuletas">
+                        <input class="form-check-input" type="checkbox" value="muletas" id="categoriaMuletas" name="categoria">
                         <label class="form-check-label" for="categoriaMuletas">
                             Muletas
                         </label>
@@ -120,19 +120,19 @@
                 <h5 class="mt-4 mb-3">Localização</h5>
                 <div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="localSP" checked>
+                        <input class="form-check-input" type="checkbox" value="sp" id="localSP" name="localizacao">
                         <label class="form-check-label" for="localSP">
                             São Paulo - SP
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="localMairipora">
+                        <input class="form-check-input" type="checkbox" value="mairipora" id="localMairipora" name="localizacao">
                         <label class="form-check-label" for="localMairipora">
                             Mairiporã - SP
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="localSuzano">
+                        <input class="form-check-input" type="checkbox" value="suzano" id="localSuzano" name="localizacao">
                         <label class="form-check-label" for="localSuzano">
                             Suzano - SP
                         </label>
@@ -150,7 +150,7 @@
 
                 <!-- Product Cards -->
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-4 product" data-oferta="gratuito" data-categoria="cadeiras" data-localizacao="sp">
                         <a href="info-prod-cadeira.html" class="text-decoration-none">
                             <div class="card">
                                 <img src="./img/cadeira-de-rodas.jpg" alt="Cadeira de Rodas Simples" class="card-img-top">
@@ -162,7 +162,7 @@
                             </div>
                         </a>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 product" data-oferta="pago" data-categoria="andadores" data-localizacao="mairipora">
                         <div class="card">
                             <img src="./img/andador.jpg" class="card-img-top" alt="Andador de Alumínio">
                             <div class="card-body">
@@ -172,7 +172,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 product" data-oferta="pago" data-categoria="muletas" data-localizacao="suzano">
                         <div class="card">
                             <img src="./img/muleta-canadense.jpg" class="card-img-top" alt="Muleta Canadense">
                             <div class="card-body">
@@ -196,5 +196,57 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Captura os filtros de oferta, categoria e localização
+            const ofertaFilters = document.querySelectorAll('input[name="oferta"]');
+            const categoriaFilters = document.querySelectorAll('input[name="categoria"]');
+            const localizacaoFilters = document.querySelectorAll('input[name="localizacao"]');
+            const produtos = document.querySelectorAll('.product');
+    
+            // Função que aplica os filtros
+            function applyFilters() {
+                // Coleta os filtros selecionados
+                const selectedOfertas = Array.from(ofertaFilters)
+                    .filter(filter => filter.checked)
+                    .map(filter => filter.value);
+    
+                const selectedCategorias = Array.from(categoriaFilters)
+                    .filter(filter => filter.checked)
+                    .map(filter => filter.value);
+    
+                const selectedLocalizacoes = Array.from(localizacaoFilters)
+                    .filter(filter => filter.checked)
+                    .map(filter => filter.value);
+    
+                // Aplica os filtros aos produtos
+                produtos.forEach(produto => {
+                    const oferta = produto.getAttribute('data-oferta');
+                    const categoria = produto.getAttribute('data-categoria');
+                    const localizacao = produto.getAttribute('data-localizacao');
+    
+                    const ofertaMatch = selectedOfertas.length === 0 || selectedOfertas.includes(oferta);
+                    const categoriaMatch = selectedCategorias.length === 0 || selectedCategorias.includes(categoria);
+                    const localizacaoMatch = selectedLocalizacoes.length === 0 || selectedLocalizacoes.includes(localizacao);
+    
+                    // Exibe ou oculta o produto com base nos filtros
+                    if (ofertaMatch && categoriaMatch && localizacaoMatch) {
+                        produto.style.display = 'block'; // Mostra o produto
+                    } else {
+                        produto.style.display = 'none'; // Esconde o produto
+                    }
+                });
+            }
+    
+            // Adiciona event listeners aos checkboxes para disparar a função quando o estado mudar
+            ofertaFilters.forEach(filter => filter.addEventListener('change', applyFilters));
+            categoriaFilters.forEach(filter => filter.addEventListener('change', applyFilters));
+            localizacaoFilters.forEach(filter => filter.addEventListener('change', applyFilters));
+    
+            // Aplica os filtros na carga da página
+            applyFilters(); 
+        });
+    </script>
+    
 </body>
 </html>
