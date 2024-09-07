@@ -144,8 +144,8 @@
             <div class="col-lg-10 p-4" style="background-color: #f0f7da;">
                 <!-- Search bar -->
                 <div class="d-flex mb-4">
-                    <input class="form-control me-2" type="search" placeholder="Pesquisar produto" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Pesquisar</button>
+                    <input id="search-bar" class="form-control me-2" type="search" placeholder="Pesquisar produto" aria-label="Search">
+                    <button id="search-button" class="btn btn-outline-success" type="submit">Pesquisar</button>
                 </div>
 
                 <!-- Product Cards -->
@@ -246,7 +246,34 @@
             // Aplica os filtros na carga da página
             applyFilters(); 
         });
+        document.addEventListener('DOMContentLoaded', function () {
+        // Captura os elementos da barra de pesquisa e produtos
+        const searchBar = document.getElementById('search-bar');
+        const searchButton = document.getElementById('search-button');
+        const produtos = document.querySelectorAll('.product');
+
+        // Função para filtrar os produtos com base na pesquisa
+        function searchProducts() {
+            const searchTerm = searchBar.value.toLowerCase(); // Converte o termo para minúsculas
+            produtos.forEach(produto => {
+                const productTitle = produto.querySelector('.card-title').textContent.toLowerCase(); // Título do produto
+
+                // Verifica se o título contém o termo de pesquisa
+                if (productTitle.includes(searchTerm)) {
+                    produto.style.display = 'block'; // Mostra o produto se combinar com a pesquisa
+                } else {
+                    produto.style.display = 'none'; // Esconde o produto se não combinar
+                }
+            });
+        }
+        // Adiciona o evento de clique no botão de pesquisa
+        searchButton.addEventListener('click', function (event) {
+            event.preventDefault(); // Evita que a página seja recarregada ao clicar no botão
+            searchProducts();
+        });
+        // Adiciona o evento para a barra de pesquisa quando o usuário digita
+        searchBar.addEventListener('input', searchProducts);
+    });
     </script>
-    
 </body>
 </html>
