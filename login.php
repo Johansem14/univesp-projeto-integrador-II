@@ -1,3 +1,40 @@
+<?php
+include("conexao.php");
+
+session_start();
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+  $email = $_POST['email'];
+  $pass = $_POST['password'];
+
+  // Escape para evitar SQL Injection
+  $email = $conn->real_escape_string($email);
+  
+  // Consulta SQL
+  $sql = "SELECT * FROM tb_usuarios WHERE email = '$email'";
+  $result = $conn->query($sql);
+
+  // Verifica se o usuário existe
+  if ($result->num_rows > 0) {
+      $row = $result->fetch_assoc();
+      // Verifica a senha
+      if (password_verify($pass, $row['senha'])) {
+          // Login bem-sucedido
+          $_SESSION['usuario_id'] = $row['id_usuarios'];
+          echo "<script>alert('Bem-vindo, " . htmlspecialchars($email) . "!');
+          window.location.href = 'home.php';
+          </script>";
+      } else {
+        echo "<script>alert('Senha incorreta');</script>";
+      }
+  } else {
+    echo "<script>alert('Usuário não encontrado');</script>";
+  }
+}
+
+$conn->close();
+?>
+
+
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -28,18 +65,18 @@
             <div class="col-md-6">
                 <h5 class="mb-4 text-center">PREENCHA OS DADOS A SEGUIR:</h5>
                 <div class="card p-4">
-                    <form action="home.html" method="POST">
+                    <form action="login.php" method="post">
                         <div class="mb-3">
                             <label for="email" class="form-label"><strong>Email:</strong></label>
-                            <input type="email" class="form-control" id="email" placeholder="exemplo@email.com" required>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="exemplo@email.com" required>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label"><strong>Senha:</strong></label>
-                            <input type="password" class="form-control" id="password" placeholder="Digite sua senha" required>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Digite sua senha" required>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Entrar</button>
                         <div class="mt-3 text-center">
-                            <a href="#" class="text-decoration-none">Esqueci minha senha</a>
+                           <!-- <a href="#" class="text-decoration-none">Esqueci minha senha</a> -->
                         </div>
                     </form>
                 </div>

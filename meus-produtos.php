@@ -1,3 +1,27 @@
+<?php
+include("conexao.php");
+session_start();
+
+// Verifica se o usuário está logado
+if (!isset($_SESSION['usuario_id'])) {
+    echo "<script>alert('Usuário não está logado.'); window.location.href = 'login.php';</script>";
+    exit;
+}
+
+// Recupera o ID do usuário logado
+$usuario_id = $_SESSION['usuario_id'];
+
+// Cria a query para buscar os produtos do usuário
+$sql = "SELECT p.id_produtos, p.nome_anunciante, p.telefone, p.produto, p.categoria, p.oferta, p.valor, p.descricao, p.nome_arquivo, p.path, e.bairro, e.localidade, e.uf 
+        FROM tb_produtos p 
+        JOIN tb_enderecos e ON p.id_produtos = e.tb_produtos_id_produtos 
+        WHERE p.tb_usuarios_id_usuarios = $usuario_id 
+        ORDER BY p.id_produtos DESC";
+
+// Executa a query
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,22 +31,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
-        @media (max-width: 991.98px) {
-    .navbar-nav {
-        justify-content: center;
-    }
-
-    .navbar-nav .nav-item {
-        margin-right: 20px;
-    }
-
-    .navbar-nav .nav-item:last-child {
-        margin-right: 0;
-    }
-
-    .navbar-nav .nav-link i {
-        font-size: 1.5rem;}
-    }
         body {
             background-color: #f5f5dc;
         }
@@ -44,20 +52,6 @@
             flex-grow: 1;
             margin-left: 20px;
         }
-        .my-prod-details h5 {
-            margin: 0;
-            font-weight: bold;
-        }
-        .my-prod-details p {
-            margin: 5px 0;
-        }
-        .remove-btn {
-            background-color: #ff4444;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 10px;
-        }
     </style>
 </head>
 <body>
@@ -73,48 +67,55 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto flex-row">
                     <li class="nav-item">
-                        <a class="nav-link fs-2 me-2" href="home.html"><i class="bi bi-house"></i></a>
+                        <a class="nav-link fs-2 me-2" href="home.php"><i class="bi bi-house"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fs-2 me-2" href="favoritos.html"><i class="bi bi-star"></i></a>
+                        <a class="nav-link fs-2 me-2" href="meus-produtos.php"><i class="bi bi-box"></i></a>
                     </li>
-                    
                     <!-- Dropdown do usuário -->
                     <li class="nav-item dropdown">
                         <a class="nav-link fs-2 me-2 dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="meus-produtos.html">Meus Produtos</a></li>
-                            <li><a class="dropdown-item" href="cad-prod.html">Cadastrar Produto</a></li>
+                            <li><a class="dropdown-item" href="meus-produtos.php">Meus Produtos</a></li>
+                            <li><a class="dropdown-item" href="cad-prod.php">Cadastrar Produto</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="index.html"><i class=" bi bi-box-arrow-right"> Sair</i></a></li>
+                            <li><a class="dropdown-item text-danger" href="login.php"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+
     <div class="container mt-4">
         <h3 class="mb-4">Meus Produtos</h3>
 
-        <div class="favorite-item">
-            <a href="">
-            <img src="./img/protese-de-perna.jpg" alt="Protese de Perna"></a>
-            <div class="my-prod-details">
-                <h5>Prótese de Perna</h5>
-                <p>R$ 1.000,00</p>
-                <p>São Paulo - SP</p>
-            </div>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class="btn btn-primary me-md-2" type="button">
-                    <i class="bi bi-pencil-square"> Editar</i></button>
-                <button class="btn btn-danger" type="button">
-                    <i class="bi bi-trash"></i> Remover Produto</button>
-              </div>
-        </div>
+        <?php
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<div class='favorite-item'>";
+                echo "<a href=''><img src='" . htmlspecialchars($row['path']) . "' alt='" . htmlspecialchars($row['nome_arquivo']) . "'></a>";
+                echo "<div class='my-prod-details'>";
+                echo "<h5>" . htmlspecialchars($row['produto']) . "</h5>";
+                echo "<p>R$ " . htmlspecialchars($row['valor']) . "</p>";
+                echo "<p>" . htmlspecialchars($row['bairro']) . ", " . htmlspecialchars($row['localidade']) . " - " . htmlspecialchars($row['uf']) . "</p>";
+                echo "</div>";
+                echo "<div class='d-grid gap-2 d-md-flex justify-content-md-end'>";
+                
+                // Link para remover o produto
+                echo "<a href='editar-produto.php?id=" . $row['id_produtos'] . "' class='btn btn-primary'><i class='bi bi-pencil'></i> Editar Produto</a>";               
+                echo "<a href='remover-produto.php?id=" . $row['id_produtos'] . "' class='btn btn-danger' onclick=\"return confirm('Você tem certeza que deseja remover este produto?');\"><i class='bi bi-trash'></i> Remover Produto</a>";
+                echo "</div>";
+                echo "</div>";
+            }
+        } else {
+            echo "<div class='alert alert-warning' role='alert'>Nenhum produto encontrado.</div>";
+        }
+        ?>
     </div>
-    
+
     <footer class="text-center py-5" style="background-color: #1f192f;">
         <div class="container text-white">
             <p class="mb-0">Conecta+ © 2024 Projeto Integrador II - Todos os direitos reservados.</p>

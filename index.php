@@ -18,8 +18,8 @@
                     <img src="./img/logo.jpg" alt="Logo" style="max-height: 130px;">
                 </a>
                 <div class="d-flex ms-auto me-5">
-                    <a class="btn btn-primary me-2" href="login.html">Entrar</a>
-                    <a class="btn btn-success" style="background-color: rgb(0, 156, 0);" href="cad-usuario.html">Cadastre-se</a>
+                    <a class="btn btn-primary me-2" href="login.php">Entrar</a>
+                    <a class="btn btn-success" style="background-color: rgb(0, 156, 0);" href="cad-usuario.php">Cadastre-se</a>
                 </div>
             </div>
         </nav>
@@ -92,3 +92,4 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </body>
 </html>
+
